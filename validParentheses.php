@@ -1,3 +1,5 @@
+<?php
+
 class Solution {
 
 
@@ -15,20 +17,22 @@ class Solution {
      */
     function isValid($s) {
         $parenthesesAr = str_split($s);
-        $i = count($parenthesesAr);
+        $maxIndex = count($parenthesesAr)-1;
+        $i = count($parenthesesAr)-1;
         $stackAr = [];
-        if($i == 1){
+        if(count($parenthesesAr) == 1){
             return false;
         }
         while($i >= 0){
             $parenthese = $parenthesesAr[$i];
             list($parenInAr, $paranType) = $this->detectOppositeParenthese($parenthese);
+            if($i == $maxIndex && $paranType == 1){
+                return false;
+            }
             if(count($stackAr) > 0){
                 list($oppositeInStack, $oppoParanType) = $this->detectOppositeParenthese($stackAr[count($stackAr)-1]);
-                
                 if(($paranType == 1 && $oppoParanType == 0) && $oppositeInStack == $parenthese){
                     unset($stackAr[count($stackAr)-1]);
-                    unset($parenthesesAr[$i]);
                     $stackAr = array_values($stackAr);
                     $parenthesesAr = array_values($parenthesesAr);     
                 } else if(($paranType == 1 && $oppoParanType == 0) && $oppositeInStack != $parenthese){
@@ -38,9 +42,14 @@ class Solution {
                 }
             } else {
                 $stackAr[] = $parenthese;
-            } 
+            }
+            unset($parenthesesAr[$i]);
             $i--;
         }
+        if(count($parenthesesAr) > 0 || count($stackAr)){
+            return false;
+        }
+
         return true;
     }
 
