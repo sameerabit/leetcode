@@ -1,46 +1,28 @@
 <?php
 
-
-
-//tried
 class Solution {
-
-
-    private $permutations = [];
 
     /**
      * @param Integer $n
      * @return Integer
      */
     function climbStairs($n) {
-        $tCount = ($n-$n%2)/2;
-        $this->find2sand1s($tCount, $n);
-        var_dump($this->permutations);
-        return count($this->permutations);
-    }
 
+        if($n <=3) return $n;
 
-    function find2sand1s($tCount, $n){
-        $i = 1;
-        $factors = [];
-        $total = 0;
-        while($i <= $tCount){
-            $total+=2;
-            $factors[] = 2;
+        $prev1 = 3;
+        $prev2 = 2;
+
+        $i=4;
+
+        while($i <= $n){
+            $current = $prev1 + $prev2;
+            $prev2 = $prev1; 
+            $prev1 = $current;
             $i++;
         }
 
-        while($total < $n){
-            $total+=1;
-            $factors[] = 1;
-        }
-
-        $this->permutations[] = $factors;
-
-        if($tCount > 0){  
-            var_dump($tCount);
-            $this->find2sand1s($tCount-1, $n);
-        }
+        return $current;
     }
 
 }
