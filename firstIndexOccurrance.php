@@ -14,18 +14,19 @@ class Solution {
         $j=0;
         $i=0;
 
-        $firstIndex = -1;
-
         while($i < count($hayStackAr)){
             if($needleAr[$j] == $hayStackAr[$i]){
                 $j++;
             } else {
+                $i=$i-$j;
                 $j=0;
             }
-
+            if($j == count($needleAr)){
+                return $i-$j+1;
+            }
             $i++;
         }
 
-        return $first;
+        return -1;
     }
 }
